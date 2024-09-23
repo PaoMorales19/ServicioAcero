@@ -1,0 +1,530 @@
+openapi: 3.0.1
+info:
+  title: Gestión de Compra, Venta y Devolución de Acero para un Negocio de Automóviles
+  description: Servicio para administrar el proceso de compra, venta o devolución de acero a través de distintos proveedores en diferentes países, con especificaciones del material.
+  version: 1.0.0
+servers:
+  - url: https://myCars.com/steel
+    description: Servidor Productivo
+tags:
+  - name: Purchase
+  - name: Sell
+  - name: Shipping
+
+paths:
+  /purchase:
+    post:
+      tags:
+        - Purchase
+      summary: Solicitar Compra de Acero
+      description: Crea una solicitud de adquisición de acero con especificaciones y tiempo de entrega.
+      operationId: createPurchase
+      requestBody:
+        description: Información de la solicitud de acero, incluyendo proveedor y especificaciones.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchaseRequest'
+      responses:
+        '201':
+          description: Solicitud de compra creada con éxito.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseResponse'
+        '400':
+          description: Error en la solicitud de compra.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseCode'
+        '500':
+          description: Error en el servidor al crear la solicitud de compra.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseCode'
+
+    get:
+      tags:
+        - Purchase
+      summary: Consultar Órdenes de Compra
+      description: Permite consultar órdenes de compra según criterios como proveedor o país.
+      operationId: getPurchaseOrders
+      parameters:
+        - name: provider
+          in: query
+          description: Nombre del proveedor
+          required: false
+          schema:
+            type: string
+            example: AceroMexico
+        - name: country
+          in: query
+          description: País de la operación
+          required: false
+          schema:
+            type: string
+            example: México
+      responses:
+        '200':
+          description: Órdenes de compra obtenidas exitosamente.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+        '204':
+          description: No se encontraron órdenes de compra.
+        '400':
+          description: Error en los datos de entrada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseCode'
+        '500':
+          description: Error en el servidor.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseCode'
+
+  /purchase/{id}:
+    put:
+      tags:
+        - Purchase
+      summary: Actualizar Solicitud de Compra
+      description: Modifica una solicitud de compra existente.
+      operationId: updatePurchase
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID de la solicitud a actualizar
+          schema:
+            type: string
+            example: "12345"
+      requestBody:
+        description: Nueva información para actualizar la solicitud de compra.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchaseRequest'
+      responses:
+        '200':
+          description: Solicitud de compra actualizada exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseResponse'
+        '400':
+          description: Error en los datos proporcionados.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseCode'
+        '404':
+          description: Solicitud de compra no encontrada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseCode'
+        '500':
+          description: Error en el servidor.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseCode'
+
+    delete:
+      tags:
+        - Purchase
+      summary: Eliminar Solicitud de Compra
+      description: Elimina permanentemente una solicitud de compra.
+      operationId: deletePurchase
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID de la solicitud a eliminar.
+          schema:
+            type: string
+            example: "12345"
+      responses:
+        '204':
+          description: Solicitud de compra eliminada exitosamente.
+        '404':
+          description: Solicitud de compra no encontrada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseCode'
+        '500':
+          description: Error en el servidor.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseCode'
+
+  /sell:
+    post:
+      tags:
+        - Sell
+      summary: Registrar Venta de Acero
+      description: Crea una solicitud de venta de acero con detalles específicos.
+      operationId: createSell
+      requestBody:
+        description: Información del pedido de venta, incluyendo especificaciones del acero.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SellRequest'
+      responses:
+        '201':
+          description: Venta registrada con éxito.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SellResponse'
+        '400':
+          description: Error en los datos de venta proporcionados.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseCode'
+        '500':
+          description: Error del servidor al registrar la venta.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseCode'
+
+    get:
+      tags:
+        - Sell
+      summary: Consultar Órdenes de Venta
+      description: Permite consultar órdenes de venta según criterios como proveedor o país.
+      operationId: getSellOrders
+      parameters:
+        - name: provider
+          in: query
+          description: Nombre del proveedor
+          required: false
+          schema:
+            type: string
+            example: AceroMexico
+        - name: country
+          in: query
+          description: País de la operación
+          required: false
+          schema:
+            type: string
+            example: México
+      responses:
+        '200':
+          description: Órdenes de venta obtenidas exitosamente.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+        '204':
+          description: No se encontraron órdenes de venta.
+        '400':
+          description: Error en los datos de entrada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseCode'
+        '500':
+          description: Error en el servidor.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseCode'
+
+  /sell/{id}:
+    put:
+      tags:
+        - Sell
+      summary: Actualizar Orden de Venta
+      description: Modifica una orden de venta existente.
+      operationId: updateSell
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID de la orden a actualizar.
+          schema:
+            type: string
+            example: "67890"
+      requestBody:
+        description: Nueva información para actualizar la orden de venta.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SellRequest'
+      responses:
+        '200':
+          description: Orden de venta actualizada exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SellResponse'
+        '400':
+          description: Error en los datos proporcionados.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseCode'
+        '404':
+          description: Orden de venta no encontrada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseCode'
+        '500':
+          description: Error en el servidor.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseCode'
+
+    delete:
+      tags:
+        - Sell
+      summary: Eliminar Orden de Venta
+      description: Elimina permanentemente una orden de venta.
+      operationId: deleteSell
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID de la orden a eliminar.
+          schema:
+            type: string
+            example: "67890"
+      responses:
+        '204':
+          description: Orden de venta eliminada exitosamente.
+        '404':
+          description: Orden de venta no encontrada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseCode'
+        '500':
+          description: Error en el servidor.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseCode'
+
+  /shipping:
+    post:
+      tags:
+        - Shipping
+      summary: Crear Nueva Orden de Envío
+      description: Método para crear una orden de envío con especificaciones definidas.
+      operationId: createShipping
+      requestBody:
+        description: Información del envío, incluyendo detalles sobre el pedido y el proveedor.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShippingRequest'
+      responses:
+        '201':
+          description: Orden de envío creada exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShippingResponse'
+        '400':
+          description: Error en los datos de envío proporcionados.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseCode'
+        '500':
+          description: Error del servidor al crear la orden de envío.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseCode'
+
+    get:
+      tags:
+        - Shipping
+      summary: Consultar Órdenes de Envío
+      description: Permite consultar órdenes de envío según el criterio del cliente o proveedor.
+      operationId: getShippingOrders
+      parameters:
+        - name: provider
+          in: query
+          description: Nombre del proveedor
+          required: false
+          schema:
+            type: string
+            example: AceroMexico
+        - name: country
+          in: query
+          description: País de la operación
+          required: false
+          schema:
+            type: string
+            example: México
+      responses:
+        '200':
+          description: Órdenes de envío obtenidas exitosamente.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+        '204':
+          description: No se encontraron órdenes de envío.
+        '400':
+          description: Error en los datos de entrada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseCode'
+        '500':
+          description: Error en el servidor.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseCode'
+
+components:
+  schemas:
+    Specification:
+      type: object
+      required:
+        - quality
+        - quantity
+      properties:
+        quality:
+          type: string
+          description: Calidad del acero.
+          example: "Calidad A"
+        quantity:
+          type: integer
+          description: Cantidad de acero en kilogramos.
+          example: 1000
+
+    PurchaseRequest:
+      type: object
+      required: 
+        - provider
+        - specifications
+        - deliveryTime
+      properties:
+        provider:
+          type: string
+          description: Nombre del proveedor de acero.
+          example: "AceroMexico"
+        specifications:
+          $ref: '#/components/schemas/Specification'
+        deliveryTime:
+          type: string
+          description: Tiempo estimado de entrega.
+          example: "2023-12-01"
+          
+    PurchaseResponse:
+      type: object
+      required: 
+        - id
+        - message
+      properties:
+        id:
+          type: string
+          description: ID de la solicitud de compra.
+          example: "12345"
+        message:
+          type: string
+          description: Mensaje de confirmación de la creación.
+          example: "Solicitud de compra creada exitosamente."
+          
+    SellRequest:
+      type: object
+      required:
+        - buyer
+        - specifications
+        - salePrice
+      properties:
+        buyer:
+          type: string
+          description: Nombre del comprador.
+          example: "Cliente1"
+        specifications:
+          $ref: '#/components/schemas/Specification'
+        salePrice:
+          type: number
+          format: float
+          description: Precio de venta del acero.
+          example: 1500.00
+          
+    SellResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID de la orden de venta.
+          example: "67890"
+        message:
+          type: string
+          description: Mensaje de confirmación de la creación.
+          example: "Venta registrada exitosamente."
+          
+    ShippingRequest:
+      type: object
+      properties:
+        orderId:
+          type: string
+          description: ID de la orden de compra o venta relacionada
+          example: "12345"
+        shippingDetails:
+          type: string
+          description: Detalles sobre el envío, incluyendo transportista.
+          example: "Transportista XYZ, entrega el 2023-12-02"
+          
+    ShippingResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID de la orden de envío.
+          example: "54321"
+        message:
+          type: string
+          description: Mensaje de confirmación de la creación.
+          example: "Orden de envío creada exitosamente."
+          
+    Order:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID de la orden.
+          example: "54321"
+        status:
+          type: string
+          description: Estado actual de la orden.
+          example: "En Proceso"
+
+        
+          
+    ResponseCode:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Código de error.
+        message:
+          type: string
+          description: Mensaje de error.
