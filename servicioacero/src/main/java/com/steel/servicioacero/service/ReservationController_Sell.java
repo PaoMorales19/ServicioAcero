@@ -1,19 +1,18 @@
 package com.steel.servicioacero.service;
-
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.web.bind.annotation.*;
-import com.steel.servicioacero.dto.PurchaseRequest;
-import com.steel.servicioacero.dto.PurchaseResponse;
+import com.steel.servicioacero.dto.SellRequest;
+import com.steel.servicioacero.dto.SellResponse;
 import com.steel.servicioacero.dto.ResponseCode;
 
 @RestController
-@RequestMapping("/purchase")
-public class ReservationController {
+@RequestMapping("/sell")
+public class ReservationController_Sell {
     @PostMapping(consumes = "application/json", produces = "application/json")
-    public PurchaseResponse createPurchase(@RequestBody PurchaseRequest purchaseRequest) {
+    public SellResponse createPurchase(@RequestBody SellRequest purchaseRequest) {
         // Lógica para procesar la compra
-        PurchaseResponse response = new PurchaseResponse();
+        SellResponse response = new SellResponse();
 
         response.setId("12345");
         response.setMessage("Solicitud de compra creada exitosamente.");
@@ -21,9 +20,9 @@ public class ReservationController {
     }
 
     @GetMapping
-    public List<PurchaseResponse> getPurchaseOrders() {
-        List<PurchaseResponse> orders = new ArrayList<>();
-        orders.add(new PurchaseResponse("54321", "En Proceso"));
+    public List<SellResponse> getsellOrders() {
+        List<SellResponse> orders = new ArrayList<>();
+        orders.add(new SellResponse("54321", "En Proceso"));
 
         // Aquí puedes agregar lógica adicional para recuperar órdenes de compra si es necesario.
 
@@ -32,9 +31,9 @@ public class ReservationController {
 
 
     @PutMapping("/{id}")
-    public PurchaseResponse updatePurchase(@PathVariable String id, @RequestBody PurchaseRequest purchaseRequest) {
+    public SellResponse updateShell(@PathVariable String id,  @RequestBody SellRequest sellRequest) {
         // Lógica para actualizar la solicitud de compra
-        PurchaseResponse response = new PurchaseResponse();
+        SellResponse response = new SellResponse();
         response.setId(id);
         response.setMessage("Solicitud de compra actualizada exitosamente.");
         return response;
@@ -48,4 +47,5 @@ public class ReservationController {
         responseCode.setMessage("Solicitud de compra eliminada exitosamente.");
         return responseCode;
     }
+    
 }

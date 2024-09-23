@@ -1,20 +1,33 @@
 package com.steel.servicioacero.dto;
 
 public class ShippingResponse {
-    private String id;
+    private String orderId;
+    private String shippingDetails;
     private String message;
 
-    public ShippingResponse(String id, String message) {
-        this.id = id;
+    public ShippingResponse(String orderId, String shippingDetails, String message) {
+        this.orderId = orderId;
+        this.shippingDetails = shippingDetails;
         this.message = message;
     }
 
-    public String getId() {
-        return id;
+    public ShippingResponse() {
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getShippingDetails() {
+        return shippingDetails;
+    }
+
+    public void setShippingDetails(String shippingDetails) {
+        this.shippingDetails = shippingDetails;
     }
 
     public String getMessage() {
@@ -24,7 +37,4 @@ public class ShippingResponse {
     public void setMessage(String message) {
         this.message = message;
     }
-
-    
-    
 }
