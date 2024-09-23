@@ -3,7 +3,9 @@ package com.steel.servicioacero.dto;
 public class ResponseCode {
     private Integer Code;
     private String Message;
-
+    public ResponseCode() {
+        
+    }
     public ResponseCode(Integer code, String message) {
         Code = code;
         Message = message;
