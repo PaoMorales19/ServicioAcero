@@ -4,8 +4,9 @@ import org.springframework.web.bind.annotation.*;
 import com.steel.servicioacero.dto.ShippingRequest;
 import com.steel.servicioacero.dto.ShippingResponse;
 
-import java.util.ArrayList;
-import java.util.List;
+// Elimina el import de ArrayList ya que no se usa
+// import java.util.ArrayList;
+// import java.util.List;
 
 @RestController
 @RequestMapping("/shipping")

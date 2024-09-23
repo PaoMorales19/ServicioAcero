@@ -33,14 +33,4 @@ public class PurchaseRequest {
         this.deliveryTime = deliveryTime;
     }
 
-    @Override
-    public String toString() {
-        return "PurchaseRequest{" +
-                "provider='" + provider + '\'' +
-                ", specifications=" + specifications +
-                ", deliveryTime='" + deliveryTime + '\'' +
-                '}';
-    }
-
-
 }
