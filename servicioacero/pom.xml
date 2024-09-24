@@ -5,9 +5,9 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.3.4</version>
+		<version>3.2.0</version> <!-- Versión estable anterior -->
 		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
+	  </parent>
 	<groupId>com.steel</groupId>
 	<artifactId>servicioacero</artifactId>
 	<version>0.0.1-SNAPSHOT</version>

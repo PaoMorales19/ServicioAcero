@@ -81,32 +81,40 @@ public class ReservationController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseCode> deletePurchase(@PathVariable String id) {
-        try {
-            // Lógica para verificar si la solicitud de compra existe
-            boolean exists = true; // Aquí deberías tener la lógica real
-    
-            // Ejemplo de lógica para verificar existencia
-            // exists = purchaseService.existsById(id); // Ejemplo de llamada a servicio
-    
-            if (!exists) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(new ResponseCode(404, "Solicitud de compra no encontrada."));
-            }
-    
-            // Lógica para eliminar la solicitud de compra
-            // purchaseService.deleteById(id); // Ejemplo de llamada a servicio
-    
-            // Retorna la respuesta de éxito con código 204 (No Content) y mensaje
-            ResponseCode responseCode = new ResponseCode();
-            responseCode.setCode(204);
-            responseCode.setMessage("Solicitud de compra eliminada exitosamente.");
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(responseCode); // El cuerpo está presente por razones de claridad, aunque no es típico en 204
-        } catch (Exception e) {
-            // Manejo de errores internos del servidor
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseCode(500, "Error interno del servidor: " + e.getMessage()));
+public ResponseEntity<?> deletePurchase(@PathVariable String id) {
+    try {
+        // Verificar que el ID tenga exactamente 5 dígitos
+        if (id == null || !id.matches("\\d{5}")) {
+            // Retornar un 404 si el ID no es válido o no cumple con los 5 dígitos
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ResponseCode(404, "Solicitud de compra no encontrada."));
         }
+
+        // Simulación de la verificación de si la solicitud existe
+        boolean exists = id.equals("12345"); // Esta lógica es solo un ejemplo, debes usar la lógica real
+        
+        if (!exists) {
+            // Si la solicitud no existe, retornar un 404 con un mensaje adecuado
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ResponseCode(404, "Solicitud de compra no encontrada."));
+        }
+
+        // Lógica para eliminar la solicitud de compra
+        // purchaseService.deleteById(id); // Implementa la lógica real para eliminar la solicitud
+        
+        // Si la eliminación fue exitosa, retornar un código 200 con el ID y el mensaje de éxito
+        PurchaseResponse response = new PurchaseResponse();
+        response.setId(id);
+        response.setMessage("Eliminado exitosamente.");
+        
+        return ResponseEntity.ok(response); // Retornar 200 OK con el cuerpo de la respuesta
+    } catch (Exception e) {
+        // Si ocurre un error interno en el servidor, retornar un código 500 con el mensaje de error
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ResponseCode(500, "Error interno del servidor: " + e.getMessage()));
     }
+}
+
+
     
 }
