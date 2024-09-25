@@ -34,8 +34,9 @@ public class PurachaseController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getPurchaseOrders(@RequestParam(required = false) String provider, 
-                                                @RequestParam(required = false) String country) {
+    public ResponseEntity<?> getPurchaseOrders(@RequestParam(required = false)  String provider, 
+                                                @RequestParam(required = false) String country,
+                                                @RequestParam(required = false) String date) {
         try {
             List<PurchaseResponse> orders = new ArrayList<>();
 
