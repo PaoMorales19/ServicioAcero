@@ -11,7 +11,7 @@ import com.steel.servicioacero.dto.ResponseCode;
 
 @RestController
 @RequestMapping("/purchase")
-public class ReservationController {
+public class PurachaseController {
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> createPurchase(@RequestBody PurchaseRequest purchaseRequest) {
