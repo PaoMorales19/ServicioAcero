@@ -20,6 +20,15 @@ public class ShippingController {
         return response;
     }
 
+    @GetMapping
+    public ShippingResponse getShippingDetails() {
+        // Lógica para recuperar detalles de envío, aquí es solo un ejemplo
+        ShippingResponse response = new ShippingResponse();
+        //response.setOrderId(orderId);
+        response.setShippingDetails("Transportista XYZ, entrega el 2023-12-02");
+        return response;
+    }
+
     @GetMapping("/{orderId}")
     public ShippingResponse getShippingDetails(@PathVariable String orderId) {
         // Lógica para recuperar detalles de envío, aquí es solo un ejemplo
