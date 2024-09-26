@@ -8,7 +8,7 @@ import com.steel.servicioacero.dto.ResponseCode;
 
 @RestController
 @RequestMapping("/sell")
-public class ReservationController_Sell {
+public class SellController {
     @PostMapping(consumes = "application/json", produces = "application/json")
     public SellResponse createPurchase(@RequestBody SellRequest purchaseRequest) {
         // Lógica para procesar la compra

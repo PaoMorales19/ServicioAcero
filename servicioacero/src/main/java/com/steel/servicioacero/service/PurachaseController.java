@@ -11,7 +11,7 @@ import com.steel.servicioacero.dto.ResponseCode;
 
 @RestController
 @RequestMapping("/purchase")
-public class ReservationController {
+public class PurachaseController {
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> createPurchase(@RequestBody PurchaseRequest purchaseRequest) {
@@ -34,8 +34,9 @@ public class ReservationController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getPurchaseOrders(@RequestParam(required = false) String provider, 
-                                                @RequestParam(required = false) String country) {
+    public ResponseEntity<?> getPurchaseOrders(@RequestParam(required = false)  String provider, 
+                                                @RequestParam(required = false) String country,
+                                                @RequestParam(required = false) String date) {
         try {
             List<PurchaseResponse> orders = new ArrayList<>();
 
