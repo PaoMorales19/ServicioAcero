@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import com.steel.servicioacero.dto.PurchaseRequest;
 import com.steel.servicioacero.dto.PurchaseResponse;
 import com.steel.servicioacero.dto.ResponseCode;
+import com.steel.servicioacero.jms.JmsProducer;
 
 @RestController
 @RequestMapping("/purchase")
