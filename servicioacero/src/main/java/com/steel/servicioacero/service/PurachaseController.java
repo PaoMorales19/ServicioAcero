@@ -2,6 +2,8 @@ package com.steel.servicioacero.service;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,9 @@ import com.steel.servicioacero.jms.JmsProducer;
 @RequestMapping("/purchase")
 public class PurachaseController {
 
+    @Autowired
+    private JmsProducer jmsProducer;
+
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> createPurchase(@RequestBody PurchaseRequest purchaseRequest) {
         try {
@@ -21,6 +26,9 @@ public class PurachaseController {
             if (purchaseRequest.getProvider() == null || purchaseRequest.getSpecifications() == null) {
                 return ResponseEntity.badRequest().body(new ResponseCode(400, "Datos de compra incompletos.")); //400
             }
+
+            // Enviar mensaje a la cola de mensajes
+            jmsProducer.sendMessage("Nueva orden de compra: " + purchaseRequest.toString());
 
             // Procesar la compra
             PurchaseResponse response = new PurchaseResponse();
