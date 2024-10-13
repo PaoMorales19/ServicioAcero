@@ -1,4 +1,3 @@
-
 package com.steel.servicioacero.dto;
 
 public class Order {
@@ -26,6 +25,4 @@ public class Order {
         Status = status;
     }
 
-    
-    
 }
