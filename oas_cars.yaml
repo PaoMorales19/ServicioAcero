@@ -433,7 +433,7 @@ components:
       type: object
       required: 
         - provider
-        - specifications
+        - specification
         - deliveryTime
         - orderType
       properties:
@@ -441,7 +441,7 @@ components:
           type: string
           description: Nombre del proveedor de acero.
           example: "AceroMexico"
-        specifications:
+        specification:
           $ref: '#/components/schemas/Specification'
         deliveryTime:
           type: string
@@ -474,18 +474,18 @@ components:
       type: object
       required:
         - buyer
-        - specifications
+        - specification
         - salePrice
       properties:
         buyer:
           type: string
           description: Nombre del comprador.
           example: "Cliente1"
-        specifications:
+        specification:
           $ref: '#/components/schemas/Specification'
         salePrice:
           type: number
-          format: float
+          format: double
           description: Precio de venta del acero.
           example: 1500.00
           
@@ -536,9 +536,7 @@ components:
           type: string
           description: Estado actual de la orden.
           example: "En Proceso"
-
-        
-          
+ 
     ResponseCode:
       type: object
       properties:
