@@ -1,4 +1,4 @@
-package com.soa.jms_aprobar;
+package com.soa.jmsaprobar;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,4 +1,4 @@
-package com.soa.jms_aprobar;
+package com.soa.jmsaprobar;
 
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
