@@ -5,14 +5,14 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.0</version> <!-- Versión estable anterior -->
+		<version>3.3.4</version> <!-- Versión estable anterior -->
 		<relativePath/> <!-- lookup parent from repository -->
 	  </parent>
 	<groupId>com.steel</groupId>
 	<artifactId>servicioacero</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>servicioacero</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Steel purchase, sell and shipping managment service through different providers in different countries with material specifications. </description>
 	<url/>
 	<licenses>
 		<license/>
