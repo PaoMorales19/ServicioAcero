@@ -25,5 +25,4 @@ public class ShippingRequest {
         ShippingDetails = shippingDetails;
     }
 
-    
 }
