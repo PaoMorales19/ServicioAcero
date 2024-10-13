@@ -5,7 +5,8 @@ public class PurchaseResponse {
     private String message;
 
     // Constructor vacío
-    public PurchaseResponse() {}
+    public PurchaseResponse() {
+    }
 
     // Constructor con parámetros
     public PurchaseResponse(String id, String message) {
