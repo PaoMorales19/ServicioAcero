@@ -1,4 +1,5 @@
 package com.steel.servicioacero.service;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.web.bind.annotation.*;
@@ -24,14 +25,14 @@ public class SellController {
         List<SellResponse> orders = new ArrayList<>();
         orders.add(new SellResponse("54321", "En Proceso"));
 
-        // Aquí puedes agregar lógica adicional para recuperar órdenes de compra si es necesario.
+        // Aquí puedes agregar lógica adicional para recuperar órdenes de compra si es
+        // necesario.
 
         return orders;
     }
 
-
     @PutMapping("/{id}")
-    public SellResponse updateShell(@PathVariable String id,  @RequestBody SellRequest sellRequest) {
+    public SellResponse updateShell(@PathVariable String id, @RequestBody SellRequest sellRequest) {
         // Lógica para actualizar la solicitud de compra
         SellResponse response = new SellResponse();
         response.setId(id);
@@ -47,5 +48,5 @@ public class SellController {
         responseCode.setMessage("Solicitud de compra eliminada exitosamente.");
         return responseCode;
     }
-    
+
 }
