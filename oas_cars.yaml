@@ -425,7 +425,8 @@ components:
           description: Cantidad de acero en kilogramos.
           example: 1000
         amount:
-          type: double
+          type: number
+          format: double
           description: Precio del acero en dólares.
           example: 100.0
 
