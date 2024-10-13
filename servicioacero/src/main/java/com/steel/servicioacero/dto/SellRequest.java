@@ -2,10 +2,10 @@ package com.steel.servicioacero.dto;
 
 public class SellRequest {
     private String buyer;
-    private float salePrice;
+    private Double salePrice;
     private Specification specification;
 
-    public SellRequest(String buyer, float salePrice, Specification specification) {
+    public SellRequest(String buyer, Double salePrice, Specification specification) {
         this.buyer = buyer;
         this.salePrice = salePrice;
         this.specification = specification;
@@ -19,11 +19,11 @@ public class SellRequest {
         this.buyer = buyer;
     }
 
-    public float getSalePrice() {
+    public Double getSalePrice() {
         return salePrice;
     }
 
-    public void setSalePrice(float salePrice) {
+    public void setSalePrice(Double salePrice) {
         this.salePrice = salePrice;
     }
 
@@ -35,8 +35,4 @@ public class SellRequest {
         this.specification = specification;
     }
 
-    
-
-
-    
 }
