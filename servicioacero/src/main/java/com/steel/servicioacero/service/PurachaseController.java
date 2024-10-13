@@ -23,7 +23,7 @@ public class PurachaseController {
     public ResponseEntity<?> createPurchase(@RequestBody PurchaseRequest purchaseRequest) {
         try {
             // Validación de campos requeridos
-            if (purchaseRequest.getProvider() == null || purchaseRequest.getSpecifications() == null) {
+            if (purchaseRequest.getProvider() == null || purchaseRequest.getSpecification() == null) {
                 return ResponseEntity.badRequest().body(new ResponseCode(400, "Datos de compra incompletos.")); //400
             }
 
@@ -73,7 +73,7 @@ public class PurachaseController {
     public ResponseEntity<?> updatePurchase(@PathVariable String id, @RequestBody PurchaseRequest purchaseRequest) {
         try {
             // Validación de campos requeridos
-            if (purchaseRequest.getProvider() == null || purchaseRequest.getSpecifications() == null) {
+            if (purchaseRequest.getProvider() == null || purchaseRequest.getSpecification() == null) {
                 return ResponseEntity.badRequest().body(new ResponseCode(400, "Datos de compra incompletos."));
             }
 

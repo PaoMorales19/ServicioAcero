@@ -2,7 +2,7 @@ package com.steel.servicioacero.dto;
 
 public class PurchaseRequest {
     private String provider;
-    private specification specifications;
+    private Specification specification;
     private String deliveryTime;
     private OrderType orderType;
 
@@ -10,9 +10,9 @@ public class PurchaseRequest {
         Normal, Urgent
     }
 
-    public PurchaseRequest(String provider, specification specifications, String deliveryTime, OrderType orderType) {
+    public PurchaseRequest(String provider, Specification specification, String deliveryTime, OrderType orderType) {
         this.provider = provider;
-        this.specifications = specifications;
+        this.specification = specification;
         this.deliveryTime = deliveryTime;
         this.orderType = orderType;
     }
@@ -25,12 +25,12 @@ public class PurchaseRequest {
         this.provider = provider;
     }
 
-    public specification getSpecifications() {
-        return specifications;
+    public Specification getSpecification() {
+        return specification;
     }
 
-    public void setSpecifications(specification specifications) {
-        this.specifications = specifications;
+    public void setSpecification(Specification specification) {
+        this.specification = specification;
     }
 
     public String getDeliveryTime() {

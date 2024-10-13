@@ -3,12 +3,12 @@ package com.steel.servicioacero.dto;
 public class SellRequest {
     private String buyer;
     private float salePrice;
-    private specification specifications;
+    private Specification specification;
 
-    public SellRequest(String buyer, float salePrice, specification specifications) {
+    public SellRequest(String buyer, float salePrice, Specification specification) {
         this.buyer = buyer;
         this.salePrice = salePrice;
-        this.specifications = specifications;
+        this.specification = specification;
     }
 
     public String getBuyer() {
@@ -27,12 +27,12 @@ public class SellRequest {
         this.salePrice = salePrice;
     }
 
-    public specification getSpecifications() {
-        return specifications;
+    public Specification getSpecification() {
+        return specification;
     }
 
-    public void setSpecifications(specification specifications) {
-        this.specifications = specifications;
+    public void setSpecification(Specification specification) {
+        this.specification = specification;
     }
 
     
