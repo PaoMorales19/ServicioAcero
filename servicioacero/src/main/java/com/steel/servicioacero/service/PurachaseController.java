@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.steel.servicioacero.dto.PurchaseRequest;
 import com.steel.servicioacero.dto.PurchaseResponse;
 import com.steel.servicioacero.dto.ResponseCode;
@@ -24,23 +26,31 @@ public class PurachaseController {
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> createPurchase(@RequestBody PurchaseRequest purchaseRequest) {
         try {
+
             // Validación de campos requeridos
             if (purchaseRequest.getProvider() == null || purchaseRequest.getSpecification() == null) {
                 return ResponseEntity.badRequest().body(new ResponseCode(400, "Datos de compra incompletos.")); // 400
             }
 
+            // Serializar objeto del body a JSON
+            ObjectMapper objectMapper = new ObjectMapper();
+            String requestBodyJson = objectMapper.writeValueAsString(purchaseRequest);
+
             // Enviar mensaje a la cola de mensajes
-            jmsProducer.sendMessage("Nueva orden de compra: " + purchaseRequest.toString());
+            jmsProducer.sendMessage(requestBodyJson);
 
             // Procesar la compra
             PurchaseResponse response = new PurchaseResponse();
             response.setId("12345");
             response.setMessage("Solicitud de compra creada exitosamente."); // 201
+
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
+
         } catch (Exception e) {
+
             // Manejo de errores internos del servidor
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseCode(500, "Error interno del servidor: " + e.getMessage())); // 500
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseCode(500, "Error interno del servidor: " + e.getMessage())); // 500
+
         }
     }
 
