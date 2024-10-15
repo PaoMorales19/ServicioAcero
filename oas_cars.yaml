@@ -452,9 +452,9 @@ components:
           type: string
           description: Tipo de urgencia de la orden.
           enum:
-          - normal
-          - urgent
-          example: "urgent"
+          - Normal
+          - Urgent
+          example: "Urgent"
           
     PurchaseResponse:
       type: object
