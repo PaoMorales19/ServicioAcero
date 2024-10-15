@@ -1,17 +1,19 @@
 package com.soa.jmsaprobar;
+
+import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsMessagingTemplate;
-import org.springframework.stereotype.Service;
 
 @Service
-
 public class JmsProducer_Ap {
-    @Autowired
-    private JmsMessagingTemplate jmsMessagingTemplate;
-  
-  
-    public void sendMessage(String message) {
-      this.jmsMessagingTemplate.convertAndSend("compras.out", message);
-    }
-    
+
+  @Autowired
+  private JmsMessagingTemplate jmsMessagingTemplate;
+
+  public void sendMessage(String destination, String message) {
+
+    this.jmsMessagingTemplate.convertAndSend(destination, message);
+
+  }
+
 }
