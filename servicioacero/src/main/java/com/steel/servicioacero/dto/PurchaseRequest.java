@@ -1,6 +1,7 @@
 package com.steel.servicioacero.dto;
 
 public class PurchaseRequest {
+    
     private String provider;
     private Specification specification;
     private String deliveryTime;
@@ -8,6 +9,9 @@ public class PurchaseRequest {
 
     public enum OrderType {
         Normal, Urgent
+    }
+
+    public PurchaseRequest() {
     }
 
     public PurchaseRequest(String provider, Specification specification, String deliveryTime, OrderType orderType) {

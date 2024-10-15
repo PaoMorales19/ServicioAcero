@@ -1,9 +1,13 @@
 package com.steel.servicioacero.dto;
 
 public class Specification {
+
     private String quality;
     private Integer quantity;
     private Double amount;
+
+    public Specification() {
+    }
 
     public Specification(String quality, Integer quantity, Double amount) {
         this.quality = quality;
