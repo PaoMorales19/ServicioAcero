@@ -7,10 +7,6 @@ public class PurchaseRequest {
     private String deliveryTime;
     private OrderType orderType;
 
-    public enum OrderType {
-        Normal, Urgent
-    }
-
     public PurchaseRequest() {
     }
 
