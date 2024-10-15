@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.steel.servicioacero.dto.PurchaseRequest;
+import com.steel.servicioacero.dto.OrderType;
 
 @Component
 public class JmsConsumer_Ap {
@@ -22,9 +23,29 @@ public class JmsConsumer_Ap {
       PurchaseRequest purchaseRequest = objectMapper.readValue(message, PurchaseRequest.class);
       System.out.println("\nMensaje desencolado: " + message);
 
-      // Getting specific properties from the deserialized JSON as a PurchaseRequest instance
-      System.out.println("Monto: " + purchaseRequest.getSpecification().getAmount());
-      System.out.println("Tipo de orden: " + purchaseRequest.getOrderType());
+      // Getting specific properties from the deserialized JSON as a PurchaseRequest
+      // instance
+      Double amount = purchaseRequest.getSpecification().getAmount();
+      OrderType orderType = purchaseRequest.getOrderType();
+
+      // Applying the conditions required
+      if (amount <= 100000 && orderType == OrderType.Normal) {
+
+        System.out.println("La solicitud de compra fue aprobada");
+
+      } else if (amount > 100000 && orderType == OrderType.Normal) {
+
+        System.out.println("La solicitud de compra sera revisada por la gerencia");
+
+      } else if (orderType == OrderType.Urgent) {
+
+        System.out.println("La solicitud de compra sera revisada por la gerencia");
+
+      } else {
+
+        System.out.println("La solicitud de compra fue rechazada");
+
+      }
 
     } catch (JsonProcessingException e) {
 
