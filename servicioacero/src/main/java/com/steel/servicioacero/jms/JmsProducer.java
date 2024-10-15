@@ -14,6 +14,6 @@ public class JmsProducer {
     private JmsMessagingTemplate jmsMessagingTemplate;
 
     public void sendMessage(String message) {
-        this.jmsMessagingTemplate.convertAndSend("compras.in", message);
+        this.jmsMessagingTemplate.convertAndSend("amq.compras.in", message);
     }
 }
