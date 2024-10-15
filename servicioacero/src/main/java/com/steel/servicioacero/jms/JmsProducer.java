@@ -13,7 +13,7 @@ public class JmsProducer {
     @Autowired
     private JmsMessagingTemplate jmsMessagingTemplate;
 
-    public void sendMessage(String message) {
-        this.jmsMessagingTemplate.convertAndSend("amq.compras.in", message);
+    public void sendMessage(String body) {
+        this.jmsMessagingTemplate.convertAndSend("amq.compras.in", body);
     }
 }
