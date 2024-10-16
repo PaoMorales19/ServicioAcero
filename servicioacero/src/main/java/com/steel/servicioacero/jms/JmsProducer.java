@@ -1,14 +1,12 @@
 package com.steel.servicioacero.jms;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jms.core.JmsMessagingTemplate;
-import org.springframework.messaging.core.MessagePostProcessor;
-import org.springframework.messaging.Message;
-import org.springframework.stereotype.Service;
 
-/**
- * 
- */
+import org.springframework.jms.core.JmsMessagingTemplate;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class JmsProducer {
 
@@ -16,15 +14,14 @@ public class JmsProducer {
     private JmsMessagingTemplate jmsMessagingTemplate;
 
     public void sendMessage(String body) {
-        this.jmsMessagingTemplate.convertAndSend("amq.compras.in", body, new MessagePostProcessor() {
+        // Crear mapa para los headers
+        Map<String, Object> messageHeaders = new HashMap<>();
+        messageHeaders.put("JMSCorrelationID", "12345"); // Agregar header
+        messageHeaders.put("JMSPriority", 5); // Cambiar prioridad
+        messageHeaders.put("JMSType", "text"); // Cambiar tipo de mensaje
 
-            @Override
-            public Message<?> postProcessMessage(Message<?> message) {
-
-                return message;
-            }
-
-        });
-
+        // Enviar mensaje con headers personalizados
+        this.jmsMessagingTemplate.convertAndSend("amq.compras.in", body, messageHeaders);
     }
 }
+
