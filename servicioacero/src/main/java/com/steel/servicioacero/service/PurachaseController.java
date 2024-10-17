@@ -38,6 +38,7 @@ public class PurachaseController {
 
             // Enviar mensaje a la cola de mensajes
             jmsProducer.sendMessage(requestBodyJson);
+            // jmsProducer.close();
 
             // Procesar la compra
             PurchaseResponse response = new PurchaseResponse();
