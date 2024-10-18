@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 // La anotación @Service indica que esta clase es un servicio gestionado por Spring, es decir,
 // puede ser inyectado como una dependencia en otros componentes.
-@Service
+
 public class JmsProducer {
 
     // Declaración de variables que representan los componentes principales de una conexión JMS
@@ -32,10 +32,6 @@ public class JmsProducer {
     private Session session; // La sesión para crear y enviar mensajes
     private Destination destination; // El destino, en este caso, una cola (queue) en JMS
     private MessageProducer messageProducer; // El productor que enviará mensajes a la cola
-    private String queueName; // El nombre de la cola a la que se enviarán los mensajes
-
-    @Value("${jms.broker.uri}")
-    private String brokerUri;
 
 
     // Constructor por defecto de la clase JmsProducer que lanza posibles excepciones
@@ -59,7 +55,7 @@ public class JmsProducer {
 
         // URL del proveedor del broker JMS (ActiveMQ en este caso), que es un servidor
         // en la dirección TCP localhost, puerto por defecto 61616, password admin, user admin (por defecto)
-        env.put(Context.PROVIDER_URL, brokerUri);
+        env.put(Context.PROVIDER_URL, "tcp://localhost:61616");
 
         // Asignamos un nombre lógico para la cola a la que queremos conectarnos
         env.put("queue." + queueName, queueName);

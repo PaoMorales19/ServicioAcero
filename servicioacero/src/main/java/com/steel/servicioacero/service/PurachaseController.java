@@ -20,7 +20,6 @@ import com.steel.servicioacero.jms.JmsProducer;
 @RequestMapping("/purchase")
 public class PurachaseController {
 
-    @Autowired
     private JmsProducer jmsProducer;
 
     @PostMapping(consumes = "application/json", produces = "application/json")
@@ -37,6 +36,7 @@ public class PurachaseController {
             String requestBodyJson = objectMapper.writeValueAsString(purchaseRequest);
 
             // Enviar mensaje a la cola de mensajes
+            jmsProducer = new JmsProducer();
             jmsProducer.sendMessage("amq.compras.in", requestBodyJson, 1, 9, 10000L);
             // jmsProducer.close();
 
