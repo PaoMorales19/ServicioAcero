@@ -37,7 +37,7 @@ public class PurachaseController {
             String requestBodyJson = objectMapper.writeValueAsString(purchaseRequest);
 
             // Enviar mensaje a la cola de mensajes
-            jmsProducer.sendMessage(requestBodyJson);
+            jmsProducer.sendMessage("amq.compras.in", requestBodyJson, 1, 9, 10000L);
             // jmsProducer.close();
 
             // Procesar la compra
