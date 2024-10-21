@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsMessagingTemplate;
 
 @Service
-public class JmsProducer_Ap {
+public class JmsProducerAp {
 
   @Autowired
   private JmsMessagingTemplate jmsMessagingTemplate;
