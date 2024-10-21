@@ -3,7 +3,7 @@ package com.steel.servicioacero.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +38,6 @@ public class PurachaseController {
             // Enviar mensaje a la cola de mensajes
             jmsProducer = new JmsProducer();
             jmsProducer.sendMessage("amq.compras.in", requestBodyJson, 1, 9, 10000L);
-            // jmsProducer.close();
 
             // Procesar la compra
             PurchaseResponse response = new PurchaseResponse();

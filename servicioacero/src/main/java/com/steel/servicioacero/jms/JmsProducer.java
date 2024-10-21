@@ -6,7 +6,7 @@ import javax.jms.Connection;
 import javax.jms.Session;
 import javax.jms.Destination;
 import javax.jms.MessageProducer;
-import javax.jms.Message;
+// import javax.jms.Message;
 import javax.jms.JMSException;
 import javax.jms.TextMessage;
 
@@ -17,12 +17,9 @@ import javax.naming.NamingException;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Value;
+// import org.springframework.stereotype.Service;
+// import org.springframework.beans.factory.annotation.Value;
 
-
-// La anotación @Service indica que esta clase es un servicio gestionado por Spring, es decir,
-// puede ser inyectado como una dependencia en otros componentes.
 
 public class JmsProducer {
 
@@ -76,6 +73,7 @@ public class JmsProducer {
     }
 
     // Método para enviar un mensaje de texto a la cola
+    
     public void sendMessage(String destinationName, String payload, int deliveryMode, int priority, long timeToLive) throws JMSException, NamingException {
 
         // Creamos una conexión
@@ -103,6 +101,9 @@ public class JmsProducer {
 
         // Establecemos el tipo de mensaje, en este caso se indica que es un mensaje detipo JSON
         message.setJMSType("application/json");
+
+        // Establecemos una propiedad personalizada para el mensaje
+        message.setStringProperty("myPropertie", "holaMundo");
 
         // Enviamos el mensaje a la cola con:
         messageProducer.send(message);
