@@ -37,7 +37,7 @@ public class PurachaseController {
 
             // Enviar mensaje a la cola de mensajes
             jmsProducer = new JmsProducer();
-            jmsProducer.sendMessage("amq.compras.in", requestBodyJson, 1, 9, 10000L);
+            jmsProducer.sendMessage(requestBodyJson, 9, 10000L);
 
             // Procesar la compra
             PurchaseResponse response = new PurchaseResponse();

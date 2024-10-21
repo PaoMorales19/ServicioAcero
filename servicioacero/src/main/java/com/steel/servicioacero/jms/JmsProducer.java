@@ -74,7 +74,7 @@ public class JmsProducer {
 
     // Método para enviar un mensaje de texto a la cola
     
-    public void sendMessage(String destinationName, String payload, int deliveryMode, int priority, long timeToLive) throws JMSException, NamingException {
+    public void sendMessage(String payload, /*int deliveryMode, */ int priority, long timeToLive) throws JMSException, NamingException {
 
         // Creamos una conexión
         this.connection = createConexion();
@@ -83,13 +83,13 @@ public class JmsProducer {
         this.session = this.connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
         // Buscamos la cola de destino en el contexto JNDI
-        this.destination = (Destination) this.context.lookup(destinationName);
+        this.destination = (Destination) this.context.lookup("amq.compras.in");
 
         // Creamos un productor de mensajes que enviará el mensaje a la cola con la sesión creada anteriormente
         this.messageProducer = session.createProducer(destination);
 
         // Configuramos los heders deliveryMode, priority y timeToLive del mensaje
-        messageProducer.setDeliveryMode(deliveryMode);
+        messageProducer.setDeliveryMode(javax.jms.DeliveryMode.PERSISTENT);
         messageProducer.setPriority(priority);
         messageProducer.setTimeToLive(timeToLive);
 
@@ -97,13 +97,13 @@ public class JmsProducer {
         TextMessage message = session.createTextMessage(payload);
 
         // Asignamos un ID de correlación para el mensaje, útil para rastrear este mensaje específico
-        message.setJMSCorrelationID("12345-unique-id");
+        // message.setJMSCorrelationID("12345-unique-id");
 
         // Establecemos el tipo de mensaje, en este caso se indica que es un mensaje detipo JSON
         message.setJMSType("application/json");
 
         // Establecemos una propiedad personalizada para el mensaje
-        message.setStringProperty("myPropertie", "holaMundo");
+        // message.setStringProperty("myPropertie", "holaMundo");
 
         // Enviamos el mensaje a la cola con:
         messageProducer.send(message);
