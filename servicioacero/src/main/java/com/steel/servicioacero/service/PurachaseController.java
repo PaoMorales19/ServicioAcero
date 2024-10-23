@@ -37,7 +37,7 @@ public class PurachaseController {
 
             // Enviar mensaje a la cola de mensajes
             jmsProducer = new JmsProducer();
-            jmsProducer.sendMessage(requestBodyJson, 9, 10000L);
+            jmsProducer.sendMessage(requestBodyJson, 9, 10000L); // TODO: Cambiar prioridad y tiempo de vida en función de la lógica de negocio
 
             // Procesar la compra
             PurchaseResponse response = new PurchaseResponse();
@@ -52,6 +52,7 @@ public class PurachaseController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseCode(500, "Error interno del servidor: " + e.getMessage())); // 500
 
         }
+
     }
 
     @GetMapping
@@ -78,6 +79,7 @@ public class PurachaseController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseCode(500, "Error interno del servidor: " + e.getMessage()));
         }
+
     }
 
     @PutMapping("/{id}")
@@ -99,6 +101,7 @@ public class PurachaseController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseCode(500, "Error interno del servidor: " + e.getMessage()));
         }
+
     }
 
     @DeleteMapping("/{id}")
@@ -137,5 +140,7 @@ public class PurachaseController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ResponseCode(500, "Error interno del servidor: " + e.getMessage()));
         }
+
     }
+    
 }
