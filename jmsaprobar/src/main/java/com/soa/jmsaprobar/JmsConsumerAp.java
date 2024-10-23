@@ -1,8 +1,9 @@
 package com.soa.jmsaprobar;
 
-import org.springframework.jms.annotation.JmsListener;
-import org.springframework.stereotype.Component;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.TextMessage;
+import javax.jms.JMSException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -10,57 +11,76 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.steel.servicioacero.dto.PurchaseRequest;
 import com.steel.servicioacero.dto.OrderType;
 
+import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+
 @Component
-public class JmsConsumer_Ap {
+public class JmsConsumerAp implements MessageListener {
 
   @Autowired
-  private JmsProducer_Ap jmsProducer;
+  private JmsProducerAp jmsProducer;
 
-  @JmsListener(destination = "compras.in")
-  public void receiveMessage(String message) {
+  @Override
+  public void onMessage(Message message) {
 
     ObjectMapper objectMapper = new ObjectMapper();
+    PurchaseRequest purchaseRequest = null;
 
     try {
 
-      // Deserialize the JSON content string to a PurchaseRequest object
-      PurchaseRequest purchaseRequest = objectMapper.readValue(message, PurchaseRequest.class);
-      System.out.println("\nMensaje desencolado: " + message);
+      if (message instanceof TextMessage) {
 
-      // Getting specific properties from the deserialized JSON as a PurchaseRequest
-      // instance
-      Double amount = purchaseRequest.getSpecification().getAmount();
-      OrderType orderType = purchaseRequest.getOrderType();
+        String text = ((TextMessage) message).getText();
 
-      // Applying the conditions required
-      if (amount <= 100000 && orderType == OrderType.Normal) {
+        System.out.println("\nRECEIVED MESSAGE from [amq.compras.in]-----\n");
 
-        // Send the aproved message to the [amq.compras.out] queue
-        jmsProducer.sendMessage("amq.compras.out", "La solicitud de compra fue aprobada");
-        System.out.println("La solicitud de compra fue aprobada");
+        System.out.println("HEADERS-----\nDeliveryMode: " + message.getJMSDeliveryMode());
+        System.out.println("Priority: " + message.getJMSPriority());
+        System.out.println("TimeToLive: " + message.getJMSExpiration());
+        // System.out.println("Correlation ID: " + message.getJMSCorrelationID());
+        System.out.println("Type: " + message.getJMSType());
 
-      } else if (amount > 100000 && orderType == OrderType.Normal) {
+        // System.out.println("\nPROPERTIES-----\nmyProperty: " + message.getStringProperty("myProperty"));
 
-        // Send the aproved message to the [amq.gerencia.in] queue
-        jmsProducer.sendMessage("amq.gerencia.in", "La solicitud de compra sera revisada por la gerencia");
-        System.out.println("La solicitud de compra sera revisada por la gerencia");
+        System.out.println("\nBODY-----\nBodyJSON: " + text + "\n");
 
-      } else if (orderType == OrderType.Urgent) {
+        try {
 
-        // Send the aproved message to the [amq.gerencia.in] queue
-        jmsProducer.sendMessage("amq.gerencia.in", "La solicitud de compra sera revisada por la gerencia");
-        System.out.println("La solicitud de compra sera revisada por la gerencia");
+          // Deserialize the JSON content string to a PurchaseRequest object
+          purchaseRequest = objectMapper.readValue(text, PurchaseRequest.class);
 
-      } else {
+        } catch (JsonProcessingException e) {
 
-        System.out.println("La solicitud de compra fue rechazada");
+          e.printStackTrace();
+          System.err.println("Failed to parse message: ");
+
+        }
+
+        // Getting specific properties from the deserialized JSON as a PurchaseRequest instance
+        Double amount = purchaseRequest.getSpecification().getAmount();
+        OrderType orderType = purchaseRequest.getOrderType();
+
+        // Applying the conditions required
+        if (amount <= 100000 || orderType == OrderType.Normal) {
+
+          // Setting the destination for this producer [amq.compras.out] and the payload.
+          jmsProducer.sendMessage("amq.compras.out", "{\"message\":\"La solicitud de compra fue aprobada.\"}", 5, 10000L);
+          System.out.println("\nLa solicitud de compra fue aprobada.");
+
+        } else if (amount > 100000 || orderType == OrderType.Urgent) {
+
+          // Send the aproved message to the [amq.gerencia.in] queue
+          jmsProducer.sendMessage("amq.gerencia.in", text, 9, 10000L);
+          System.out.println("\nLa solicitud de compra sera revisada por la gerencia.");
+
+        }
 
       }
 
-    } catch (JsonProcessingException e) {
+    } catch (JMSException e) {
 
       e.printStackTrace();
-      System.err.println("Failed to parse message: " + message);
+      System.err.println(e);
 
     }
 
