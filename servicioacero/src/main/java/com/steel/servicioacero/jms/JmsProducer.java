@@ -6,7 +6,6 @@ import javax.jms.Connection;
 import javax.jms.Session;
 import javax.jms.Destination;
 import javax.jms.MessageProducer;
-// import javax.jms.Message;
 import javax.jms.JMSException;
 import javax.jms.TextMessage;
 
@@ -14,10 +13,10 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import java.io.IOException;
 import java.util.Properties;
 
 // import org.springframework.stereotype.Service;
+// import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.beans.factory.annotation.Value;
 
 
@@ -32,7 +31,7 @@ public class JmsProducer {
 
 
     // Constructor por defecto de la clase JmsProducer que lanza posibles excepciones
-    public JmsProducer() throws NamingException, IOException {
+    public JmsProducer() throws NamingException {
 
         this.context = createContext("amq.compras.in");
         this.destination = null;
@@ -89,7 +88,7 @@ public class JmsProducer {
         this.messageProducer = session.createProducer(destination);
 
         // Configuramos los heders deliveryMode, priority y timeToLive del mensaje
-        messageProducer.setDeliveryMode(javax.jms.DeliveryMode.PERSISTENT);
+        messageProducer.setDeliveryMode(javax.jms.DeliveryMode.NON_PERSISTENT);
         messageProducer.setPriority(priority);
         messageProducer.setTimeToLive(timeToLive);
 
@@ -103,7 +102,7 @@ public class JmsProducer {
         message.setJMSType("application/json");
 
         // Establecemos una propiedad personalizada para el mensaje
-        // message.setStringProperty("myPropertie", "holaMundo");
+        // message.setStringProperty("myProperty", "holaMundo");
 
         // Enviamos el mensaje a la cola con:
         messageProducer.send(message);
@@ -115,9 +114,9 @@ public class JmsProducer {
         // Cerramos la conexión al broker JMS
         connection.close();
 
-        // Imprimimos en la consola que el mensaje ha sido enviado, para verificar su
-        // envío
-        System.out.println("Sent message: " + payload);
+        // Imprimimos en la consola que el mensaje ha sido enviado, para verificar su envío
+        System.out.println("\nSent message: " + payload);
+        
     }
 
 }
