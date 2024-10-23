@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "jms.broker.uri",
+  "type": "java.lang.String",
+  "description": "The broker URI from JMS broker'"
+}]}

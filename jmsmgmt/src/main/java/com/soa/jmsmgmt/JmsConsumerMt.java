@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  * 
  */
 @Component
-public class JmsConsumer {
+public class JmsConsumerMt {
   
 
 
