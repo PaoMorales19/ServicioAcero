@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class JmsMgmtApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(JmsmgmtApplication.class, args);
+		SpringApplication.run(JmsMgmtApplication.class, args);
 	}
 
 }
