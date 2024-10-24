@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import com.steel.servicioacero.dto.OrderType;
 import com.steel.servicioacero.dto.PurchaseRequest;
 import com.steel.servicioacero.dto.PurchaseResponse;
 import com.steel.servicioacero.dto.ResponseCode;
@@ -37,7 +37,17 @@ public class PurachaseController {
 
             // Enviar mensaje a la cola de mensajes
             jmsProducer = new JmsProducer();
-            jmsProducer.sendMessage(requestBodyJson, 9, 10000L); // TODO: Cambiar prioridad y tiempo de vida en función de la lógica de negocio
+            
+            // If para definir la prioridad con que se manda a la queue de compras
+            if (purchaseRequest.getOrderType() == OrderType.Urgent) {
+
+                jmsProducer.sendMessage(requestBodyJson, 9, 60000L);
+
+            } else {
+
+                jmsProducer.sendMessage(requestBodyJson, 5, 60000L);
+
+            }
 
             // Procesar la compra
             PurchaseResponse response = new PurchaseResponse();
