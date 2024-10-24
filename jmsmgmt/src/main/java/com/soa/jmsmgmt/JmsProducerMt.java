@@ -1,22 +1,47 @@
 package com.soa.jmsmgmt;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jms.core.JmsMessagingTemplate;
-import org.springframework.stereotype.Service;
+import javax.jms.DeliveryMode;
+import javax.jms.JMSException;
+import javax.jms.Message;
 
+import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.support.QosSettings;
+import org.springframework.jms.core.MessagePostProcessor;
 
 /**
  * 
  */
-@Service
+@Component
 public class JmsProducerMt {
 
-
   @Autowired
-  private JmsMessagingTemplate jmsMessagingTemplate;
+  private JmsTemplate jmsTemplate;
 
+  public void sendMessage(String destinationName, String text, int priority, long timeToLive) {
 
-  public void sendMessage(String message) {
-    this.jmsMessagingTemplate.convertAndSend("compras.out", message);
+    jmsTemplate.setExplicitQosEnabled(true);
+    jmsTemplate.setQosSettings(new QosSettings(DeliveryMode.NON_PERSISTENT, priority, timeToLive));
+
+    jmsTemplate.convertAndSend(destinationName, text, new MessagePostProcessor() {
+
+      @Override
+      public Message postProcessMessage(Message msg) throws JMSException {
+
+        // msg.setJMSCorrelationID("unique-id-123");
+        msg.setJMSType("application/json");
+
+        // msg.setStringProperty("myProperty", "holaMundo");
+
+        return msg;
+
+      }
+
+    });
+
+    System.out.println("Sent message: " + text);
+
   }
+
 }
