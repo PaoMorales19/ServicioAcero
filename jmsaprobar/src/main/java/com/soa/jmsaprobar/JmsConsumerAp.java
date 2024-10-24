@@ -61,16 +61,22 @@ public class JmsConsumerAp implements MessageListener {
         OrderType orderType = purchaseRequest.getOrderType();
 
         // Applying the conditions required
-        if (amount <= 100000 || orderType == OrderType.Normal) {
+        if (orderType == OrderType.Urgent) {
+          
+          // Resend the message to the [amq.gerencia.in] queue
+          jmsProducer.sendMessage("amq.gerencia.in", text, 9, 60000L);
+          System.out.println("\nLa solicitud de compra sera revisada por la gerencia.");
 
-          // Setting the destination for this producer [amq.compras.out] and the payload.
-          jmsProducer.sendMessage("amq.compras.out", "{\"message\":\"La solicitud de compra fue aprobada.\"}", 5, 10000L);
+        } else if (amount <= 100000 || orderType == OrderType.Normal) {
+
+          // Send the message to the [amq.compras.out] queue as it's approved
+          jmsProducer.sendMessage("amq.compras.out", "{\"message\":\"La solicitud de compra fue aprobada.\"}", 5, 60000L);
           System.out.println("\nLa solicitud de compra fue aprobada.");
 
-        } else if (amount > 100000 || orderType == OrderType.Urgent) {
+        } else if (amount > 100000 || orderType == OrderType.Normal) {
 
-          // Send the aproved message to the [amq.gerencia.in] queue
-          jmsProducer.sendMessage("amq.gerencia.in", text, 9, 10000L);
+          // Resend the message to the [amq.gerencia.in] queue
+          jmsProducer.sendMessage("amq.gerencia.in", text, 9, 60000L);
           System.out.println("\nLa solicitud de compra sera revisada por la gerencia.");
 
         }
