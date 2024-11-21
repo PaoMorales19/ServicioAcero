@@ -1,4 +1,5 @@
-package com.soa.jmsmgmt;
+package service;
+
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

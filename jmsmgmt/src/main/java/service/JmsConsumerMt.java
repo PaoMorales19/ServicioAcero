@@ -1,4 +1,5 @@
-package com.soa.jmsmgmt;
+package service;
+
 
 import javax.jms.Message;
 import javax.jms.MessageListener;

@@ -1,4 +1,5 @@
-package com.soa.jmsmgmt;
+package service;
+
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.context.annotation.Bean;
